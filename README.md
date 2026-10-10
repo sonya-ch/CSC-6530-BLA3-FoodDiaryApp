@@ -41,11 +41,10 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Edit Food Page
 - Delete Food  
  
-### Food Detail (Future Plan)
-- Food Name
-- Food Image
-- Calories
-- Nutrition
+### Steps Working
+1. Install Express
+2. Install Neon - Create user-profiles table - Test POST and GET 
+
  
 ### Interaction 
 - Pressable / TouchableOpacity
@@ -69,7 +68,14 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Android Emulator
 - Expo Go 
 ### Database
+- PostgreSQL
 - SQLite
+- Express
+- Node.js
+- NEON
+- PowerShell
+### API
+- 
  
  ---
  

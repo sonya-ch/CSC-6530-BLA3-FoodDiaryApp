@@ -7,6 +7,7 @@ import Home from "./Home"; //props Home
 import Favorites from "./Favorites";
 import FoodDetail from "./FoodDetail"; //Food Detail
 import AddFood from "./AddFood";
+import Profile from "./Profile"; // Profile Page
 
 // --- Old Data --- 
 //import foodData from "../data/food";
@@ -23,15 +24,19 @@ import {
   updateFavorite
 } from "../database/database";
 
+
 // --- Style ---
 import myStyle from "../assets/styles/myStyle.js";
+
 
 export default function App() {
   
   // --- State ---
   //state Current screen, innitialize to "home"
   const [screen, setScreen] = useState("home");
-  
+  const [menuVisible, setMenuVisible] = useState(false); // Menu visibility state
+ 
+
   //---- Food data -----
  // const [foods, setFoods] = useState(foodData);
   const [foods, setFoods] = useState([]); //SQLite
@@ -186,6 +191,7 @@ useEffect(() => {
           openFoodDetail={openFoodDetail}
           openAddFood={openAddFood}
           toggleFavorite={toggleFavorite}
+          onOpenMenu={() => setMenuVisible(true)}
         />
 
       ) : screen === "favorites" ? (
@@ -216,6 +222,9 @@ useEffect(() => {
           onBack={() => setScreen("detail")}
         />
 
+      ) : screen === "profile" ? (
+         <Profile onBack={() => setScreen("home")} />
+      
       ) : null}
 
       {/* --- Navigation Bar --- */}
@@ -228,6 +237,54 @@ useEffect(() => {
           <Text>❤️ Favorites</Text>
         </TouchableOpacity>
       </View>
+      
+      {/* ----- Menu Overlay ------ */}  
+      {menuVisible && (
+        <View style={myStyle.menuOverlay}>
+          <View style={myStyle.menuPanel}>
+            <Text style={myStyle.menuPanelTitle}>ByteBurn Menu</Text>
+
+            <TouchableOpacity
+              style={myStyle.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setScreen("home");
+              }}
+            >
+              <Text style={myStyle.menuItemText}>🏠 Home</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={myStyle.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setScreen("favorites");
+              }}
+            >
+              <Text style={myStyle.menuItemText}>💗 Favorites</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={myStyle.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setScreen("profile");
+              }}
+            >
+              <Text style={myStyle.menuItemText}>👤 My Profile</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={myStyle.menuCloseButton}
+              onPress={() => setMenuVisible(false)}
+            >
+              <Text style={myStyle.menuCloseText}>Close Menu</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+
     </View>
   );
 }

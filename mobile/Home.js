@@ -18,7 +18,8 @@ export default function Home({
   setFavorites, 
   openFoodDetail, 
   openAddFood,
-  toggleFavorite 
+  toggleFavorite, 
+  onOpenMenu
 }) {
   //state search = waiting for search input.
   // -- useState is a React hook that allows you to have state variables in functional components
@@ -84,7 +85,7 @@ export default function Home({
 
         <TouchableOpacity
           style={myStyle.menuButton}
-          onPress={() => console.log("Menu pressed")}
+          onPress={onOpenMenu}
         >
           <Text style={myStyle.menuIcon}>☰</Text>
         </TouchableOpacity>

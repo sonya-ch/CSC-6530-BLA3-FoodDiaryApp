@@ -372,6 +372,130 @@ const myStyle = StyleSheet.create({
   },
 
 
+
+  
+  /* ------ Profile Page ------ */
+
+  profileHeader: {
+    backgroundColor: "#F8DDE5",
+    paddingTop: 25,
+    paddingHorizontal: 20,
+    paddingBottom: 18,
+  },
+
+  profileBack: {
+    fontSize: 16,
+    color: "#6B3E4B",
+    fontWeight: "bold",
+    marginBottom: 12,
+  },
+
+  profileTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#6B3E4B",
+  },
+
+  profileForm: {
+    paddingHorizontal: 22,
+    paddingBottom: 35,
+  },
+
+  profileSexRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 5,
+  },
+
+  profileSexButton: {
+    flex: 1,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#E8CBD3",
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+
+  profileSexSelected: {
+    backgroundColor: "#F8DDE5",
+    borderColor: "#6B3E4B",
+    borderWidth: 2,
+  },
+
+  profileSaveButton: {
+    marginTop: 28,
+    padding: 15,
+    borderRadius: 12,
+    alignItems: "center",
+    backgroundColor: "#6B3E4B",
+  },
+
+  profileSaveText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+
+
+  
+  /* ------ Hamburger Menu ------ */
+
+  menuOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.35)",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    zIndex: 100,
+  },
+
+  menuPanel: {
+    width: 250,
+    minHeight: 280,
+    marginTop: 25,
+    marginRight: 10,
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: "#FFF8FA",
+    elevation: 8,
+  },
+
+  menuPanelTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#6B3E4B",
+    marginBottom: 15,
+  },
+
+  menuItem: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0DCE2",
+  },
+
+  menuItemText: {
+    fontSize: 17,
+    color: "#4A3037",
+  },
+
+  menuCloseButton: {
+    marginTop: 18,
+    padding: 12,
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: "#F8DDE5",
+  },
+
+  menuCloseText: {
+    fontWeight: "bold",
+    color: "#6B3E4B",
+  },
+
+
 });
 
 export default myStyle;

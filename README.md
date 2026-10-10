@@ -44,7 +44,7 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 ### Steps Working
 1. Install Express
 2. Install Neon - Create user-profiles table - Test POST and GET 
-
+3. Create Profile.js and Hamburger Menu Navigation
  
 ### Interaction 
 - Pressable / TouchableOpacity
@@ -61,12 +61,14 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Figma
 - CSS
 - Canvas
+
 ### Back-End
 - JavaScript
 - React Native
 - TypeScript
 - Android Emulator
 - Expo Go 
+
 ### Database
 - PostgreSQL
 - SQLite
@@ -74,8 +76,9 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Node.js
 - NEON
 - PowerShell
+
 ### API
-- 
+- FDA Food API 
  
  ---
  

@@ -1,11 +1,16 @@
-# Project: Food Tracking App [BLA 2]
+# Project: Food Tracking App [BLA 3]
 # Name: Saranya Chotsiri
 # Course: CSC-6530-1 | Mobile Application Design and Development I
 # Instructor: Dr Victor Govindaswamy
-# Start Date: 9/29/2026
+# Start Date: 10/9/2026
 
-## BLA 2 Plan – CRUD, Persistence, and Local Data
-For BLA 2, I plan to expand the Food Menu concept into a Food Tracking App.
+## BLA 3 – API, PostgreSQL, and AI
+
+For BLA 3, I plan to further develop the Food Tracking App into a ByteBurn application by integrating an external API and AI functionality.
+
+The goal is to connect the existing food-tracking features with external data and introduce an AI-based feature, such as an AI food or nutrition coach.
+
+This will allow me to gradually develop the project from a UI-focused application into a more functional application using local data, APIs, and AI.
 
 ### The application will introduce CRUD functionality, including:
 - Add a food/meal
@@ -109,14 +114,6 @@ I also learned that organizing database operations separately from the UI can ma
 
 # Future Plans
   
-## BLA 3 – API, PostgreSQL, and AI
-
-For BLA 3, I plan to further develop the Food Tracking App into a ByteBurn application by integrating an external API and AI functionality.
-
-The goal is to connect the existing food-tracking features with external data and introduce an AI-based feature, such as an AI food or nutrition coach.
-
-This will allow me to gradually develop the project from a UI-focused application into a more functional application using local data, APIs, and AI.
-
 ---
 
 ## Tutorials and Learning Resources

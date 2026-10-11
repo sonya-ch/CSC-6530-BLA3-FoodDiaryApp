@@ -8,6 +8,7 @@ import Favorites from "./Favorites";
 import FoodDetail from "./FoodDetail"; //Food Detail
 import AddFood from "./AddFood";
 import Profile from "./Profile"; // Profile Page
+import FoodDiary from "./FoodDiary"; // Food Diary Page
 
 // --- Old Data --- 
 //import foodData from "../data/food";
@@ -224,6 +225,10 @@ useEffect(() => {
 
       ) : screen === "profile" ? (
          <Profile onBack={() => setScreen("home")} />
+
+      ) : screen === "diary" ? (
+         <FoodDiary onBack={() => setScreen("home")} />
+
       
       ) : null}
 
@@ -264,6 +269,7 @@ useEffect(() => {
               <Text style={myStyle.menuItemText}>💗 Favorites</Text>
             </TouchableOpacity>
 
+
             <TouchableOpacity
               style={myStyle.menuItem}
               onPress={() => {
@@ -273,6 +279,19 @@ useEffect(() => {
             >
               <Text style={myStyle.menuItemText}>👤 My Profile</Text>
             </TouchableOpacity>
+
+
+            <TouchableOpacity
+              style={myStyle.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setScreen("diary");
+              }}
+            >
+              <Text style={myStyle.menuItemText}>📅 Food Diary</Text>
+            </TouchableOpacity>
+
+
 
             <TouchableOpacity
               style={myStyle.menuCloseButton}

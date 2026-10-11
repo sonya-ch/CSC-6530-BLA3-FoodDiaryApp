@@ -41,7 +41,10 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 2. Install Neon - Create user-profiles table - Test POST and GET 
 3. Create Profile.js and Hamburger Menu Navigation
 4. Add Age and Activity levels to Table - to calculate BMI and TDEE
- 
+5. Food Diary Tracking (FoodDiary.js) show Food Diary Tracking > Linked with App.js
+
+
+
 ### Interaction 
 - Pressable / TouchableOpacity
 - Navigate to screens

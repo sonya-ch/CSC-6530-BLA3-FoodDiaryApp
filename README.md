@@ -18,8 +18,11 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Edit food information
 - Delete a food/meal
 - Manage food data locally using SQLite
+- Update User Profile
+- Calculate BMI and TDEE 
 
 ---
+
 ### The main screens will include:
 -	Home Page – Food Menu header, search bar, food categories, and food cards.
 -	Favorite Page – Users can add or remove foods from their favorites list, also show total calories from selected food.
@@ -27,24 +30,17 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 -	Add new food Page - Check Validate food name.
 -	Edit Food Page - Reuse Add food page.
 -	Delete Food Pop Up - Alert confirmation.
- 
+-   **Profile Page - User Profile and calculate BMI and TDEE 
+
 ### Design 
 - [UML](./docs/design/UML.md) 
 - [UseCaseDiagram](./docs/design/) 
-- Logo
-- Food Categories
-- Favorite button
-- Food Cards
-- Food Detail
-- Food search
-- Add new food Page
-- Edit Food Page
-- Delete Food  
  
 ### Steps Working
 1. Install Express
 2. Install Neon - Create user-profiles table - Test POST and GET 
 3. Create Profile.js and Hamburger Menu Navigation
+4. Add Age and Activity levels to Table - to calculate BMI and TDEE
  
 ### Interaction 
 - Pressable / TouchableOpacity

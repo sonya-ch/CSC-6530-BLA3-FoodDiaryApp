@@ -496,6 +496,52 @@ const myStyle = StyleSheet.create({
   },
 
 
+  /* -----------BMI, TDEE and Activity Level Buttons ------------ */
+  profileActivityButton: {
+    padding: 12,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: "#E8CBD3",
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+  },
+  profileActivitySelected: {
+    backgroundColor: "#F8DDE5",
+    borderColor: "#6B3E4B",
+    borderWidth: 2,
+  },
+  profileResultCard: {
+    marginTop: 25,
+    marginBottom: 20,
+    padding: 18,
+    borderRadius: 14,
+    backgroundColor: "#FFF1F5",
+  },
+  profileResultTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#6B3E4B",
+    marginBottom: 15,
+  },
+  profileResultLabel: {
+    fontSize: 14,
+    color: "#6B3E4B",
+    marginTop: 8,
+  },
+  profileResultValue: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#4A3037",
+    marginTop: 4,
+  },
+  profileResultHint: {
+    fontSize: 12,
+    color: "#6B3E4B",
+    marginTop: 12,
+  },
+
+
+
 });
 
 export default myStyle;

@@ -29,7 +29,7 @@ app.get("/api/profiles", async (req, res) => {
   }
 });
 
-// Create a user profile
+// ------- POST = INSERT/ Create a user profile ----------
 app.post("/api/profiles", async (req, res) => {
   try {
     const {
@@ -39,6 +39,8 @@ app.post("/api/profiles", async (req, res) => {
       sex,
       weight_kg,
       height_cm,
+      age,
+      activity_level,
     } = req.body;
 
     if (!username || !name) {
@@ -77,7 +79,7 @@ app.post("/api/profiles", async (req, res) => {
 });
 
 
-// ---------- EDIT PROFILE ----------
+// ---------- PUT = EDIT/UPDATE PROFILE ----------
 app.put("/api/profiles/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -95,6 +97,8 @@ app.put("/api/profiles/:id", async (req, res) => {
       sex,
       weight_kg,
       height_cm,
+      age,
+      activity_level,
     } = req.body;
 
     if (!username || !name) {
@@ -103,17 +107,20 @@ app.put("/api/profiles/:id", async (req, res) => {
       });
     }
 
+    // --- SQL Update ---
     const result = await pool.query(
       `UPDATE user_profiles
-       SET username = $1,
-           name = $2,
-           photo_url = $3,
-           sex = $4,
-           weight_kg = $5,
-           height_cm = $6,
-           updated_at = CURRENT_TIMESTAMP
-       WHERE id = $7
-       RETURNING *`,
+      SET username = $1,
+          name = $2,
+          photo_url = $3,
+          sex = $4,
+          weight_kg = $5,
+          height_cm = $6,
+          age = $7,
+          activity_level = $8,
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = $9
+      RETURNING *`,
       [
         username,
         name,
@@ -121,9 +128,12 @@ app.put("/api/profiles/:id", async (req, res) => {
         sex ?? null,
         weight_kg ?? null,
         height_cm ?? null,
+        age ?? null,
+        activity_level ?? null,
         id,
       ]
     );
+
 
     if (result.rows.length === 0) {
       return res.status(404).json({

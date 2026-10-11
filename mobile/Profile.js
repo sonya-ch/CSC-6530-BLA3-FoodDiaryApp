@@ -15,20 +15,78 @@ import myStyle from "../assets/styles/myStyle";
 // Change this to your computer's LAN IP when using Expo Go on a phone.
 const API_URL = "http://192.168.0.98:3000/api/profiles";
 
+
 export default function Profile({ onBack }) {
+
+    //----- State Variables -----
   const [profileId, setProfileId] = useState(null);
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [sex, setSex] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
+  const [age, setAge] = useState("");
+  const [activityLevel, setActivityLevel] = useState("sedentary");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+
+const weightNumber = Number(weight);
+const heightNumber = Number(height);
+const ageNumber = Number(age);
+
+
+// ----- Calculate BMI -----
+    const hasValidBMI =
+    weight.trim() !== "" &&
+    height.trim() !== "" &&
+    Number.isFinite(weightNumber) &&
+    Number.isFinite(heightNumber) &&
+    weightNumber > 0 &&
+    heightNumber > 0;
+
+    const bmi = hasValidBMI
+    ? weightNumber / Math.pow(heightNumber / 100, 2)
+    : null;
+
+    const activityFactors = {
+    sedentary: 1.2,
+    lightly_active: 1.375,
+    moderately_active: 1.55,
+    very_active: 1.725,
+    extra_active: 1.9,
+    };
+
+    let bmr = null;
+
+    if (
+    hasValidBMI &&
+    age.trim() !== "" &&
+    Number.isFinite(ageNumber) &&
+    ageNumber > 0
+    ) {
+    if (sex === "male") {
+        bmr = 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber + 5;
+    } else if (sex === "female") {
+        bmr = 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber - 161;
+    }
+    }
+
+// -- TDEE - Mifflin–St Jeor (Only M and FM, if Other = not calculated)
+    const tdee =
+    bmr !== null
+        ? Math.round(bmr * activityFactors[activityLevel])
+        : null;
+
+
+
+
+  //----- Effect Hooks -----
   useEffect(() => {
     loadProfile();
   }, []);
 
+  //----- Load Profile Function -----
   const loadProfile = async () => {
     try {
       const response = await fetch(API_URL);
@@ -41,12 +99,21 @@ export default function Profile({ onBack }) {
 
       // Load the first profile for this initial prototype.
       if (profiles.length > 0) {
+        
         const profile = profiles[0];
 
         setProfileId(profile.id);
         setUsername(profile.username || "");
         setName(profile.name || "");
         setSex(profile.sex || "");
+        setAge(
+          profile.age != null
+            ? String(profile.age)
+            : ""
+        );
+        setActivityLevel(
+          profile.activity_level || "sedentary"
+        );
         setWeight(
           profile.weight_kg != null
             ? String(profile.weight_kg)
@@ -78,6 +145,8 @@ export default function Profile({ onBack }) {
     const weightValue = weight.trim() === "" ? null : Number(weight);
     const heightValue = height.trim() === "" ? null : Number(height);
 
+
+
     if (
       (weightValue !== null &&
         (!Number.isFinite(weightValue) || weightValue <= 0)) ||
@@ -97,6 +166,8 @@ export default function Profile({ onBack }) {
       sex: sex || null,
       weight_kg: weightValue,
       height_cm: heightValue,
+      age: age.trim() === "" ? null : Number(age),
+      activity_level: activityLevel,
     };
 
     try {
@@ -208,6 +279,65 @@ export default function Profile({ onBack }) {
           keyboardType="decimal-pad"
         />
 
+        <Text style={myStyle.formLabel}>Age</Text>
+        <TextInput
+        style={myStyle.formInput}
+        value={age}
+        onChangeText={setAge}
+        placeholder="Enter your age"
+        keyboardType="numeric"
+        />
+
+       
+        <Text style={myStyle.formLabel}>Activity Level</Text>
+        {[
+        { label: "Sedentary", value: "sedentary" },
+        { label: "Lightly Active", value: "lightly_active" },
+        { label: "Moderately Active", value: "moderately_active" },
+        { label: "Very Active", value: "very_active" },
+        { label: "Extra Active", value: "extra_active" },
+        ].map((option) => (
+
+            <TouchableOpacity
+            key={option.value}
+            style={[
+            myStyle.profileActivityButton,
+            activityLevel === option.value &&
+                myStyle.profileActivitySelected,
+            ]}
+            onPress={() => setActivityLevel(option.value)}
+            >
+            <Text>{option.label}</Text>
+            </TouchableOpacity>
+
+        ))}
+
+{/* ----------- BMI & TDEE ----------- */}
+        <View style={myStyle.profileResultCard}>
+            <Text style={myStyle.profileResultTitle}>
+                Your Health Metrics
+            </Text>
+
+            <Text style={myStyle.profileResultLabel}>BMI</Text>
+            <Text style={myStyle.profileResultValue}>
+                {bmi !== null ? bmi.toFixed(1) : "--"}
+            </Text>
+
+            <Text style={myStyle.profileResultLabel}>
+                Estimated Daily Calories (TDEE)
+            </Text>
+            <Text style={myStyle.profileResultValue}>
+                {tdee !== null ? `${tdee} kcal/day` : "--"}
+            </Text>
+
+            {tdee === null && (
+                <Text style={myStyle.profileResultHint}>
+                Enter your age, weight, height, and sex to estimate TDEE.
+                </Text>
+            )}
+        </View>
+        
+        {/* ----------- Save Button ----------- */}
         <TouchableOpacity
           style={myStyle.profileSaveButton}
           onPress={saveProfile}

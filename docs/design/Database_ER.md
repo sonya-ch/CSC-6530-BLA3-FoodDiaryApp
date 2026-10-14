@@ -1,6 +1,9 @@
 ```mermaid
 erDiagram
-    FOODS ||--o{ FOOD_LOGS : "referenced by food_id"
+    FOODS ||--o{ FOOD_LOGS : "FOOD_LOGS.food_fk references FOODS.food_id"
+    %% || = exactly one food per log
+    %% o{ = zero or more logs per food
+    %% -- = identifying relationship (solid line)
 
     FOODS {
         INTEGER food_id PK

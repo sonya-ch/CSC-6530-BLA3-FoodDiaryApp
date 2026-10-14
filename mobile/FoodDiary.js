@@ -18,8 +18,8 @@ import {
 } from "../database/database";
 
 
-
-export default function FoodDiary({ onBack }) {
+// --- Food Diary Component ---
+export default function FoodDiary({ onBack, onAddFood }) {
 
 // State for the selected date and food logs
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -290,6 +290,8 @@ export default function FoodDiary({ onBack }) {
                     No food logged yet.
                   </Text>
                 ) : (
+                  
+                  // Render each food item for the current meal
                   mealLogs.map((food) => (
                     <View
                       key={food.id}
@@ -300,7 +302,7 @@ export default function FoodDiary({ onBack }) {
                         borderBottomColor: "#F0DCE2",
                       }}
                     >
-                      <View // Container for the food item details
+                      <View 
                         style={{
                           flexDirection: "row",
                           justifyContent: "space-between",
@@ -371,13 +373,9 @@ export default function FoodDiary({ onBack }) {
                   </Text>
                 )}
 
+                {/* --- Add Food Button --- */}
                 <TouchableOpacity
-                  onPress={() =>
-                    Alert.alert(
-                      "Coming Next",
-                      "USDA food search will be connected in the next step."
-                    )
-                  }
+                  onPress={() => onAddFood?.(meal.name, selectedDate)}
                   style={{
                     marginTop: 14,
                     padding: 12,
@@ -395,6 +393,7 @@ export default function FoodDiary({ onBack }) {
                     + Add Food
                   </Text>
                 </TouchableOpacity>
+              
               </View>
             );
           })

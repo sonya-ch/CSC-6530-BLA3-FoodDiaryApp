@@ -24,13 +24,18 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 ---
 
 ### The main screens will include:
+#### BLA1 - Favorite Food
 -	Home Page – Food Menu header, search bar, food categories, and food cards.
 -	Favorite Page – Users can add or remove foods from their favorites list, also show total calories from selected food.
+#### BLA2 - CURD and Local database SQLite
 -	View Food Detail – Food image, food category, calories, protein, and other details.
 -	Add new food Page - Check Validate food name.
 -	Edit Food Page - Reuse Add food page.
 -	Delete Food Pop Up - Alert confirmation.
+#### BLA3 - API, PostgreSQL and Logs food diary
 -   **Profile Page - User Profile and calculate BMI and TDEE 
+-   **FoodDiary - Show food diaryLogs
+-   **SearchFood.js - Search food list from USDA FoodData Central API, and manage it to 100g unit.
 
 ### Design 
 - [UML](./docs/design/UML.md) 
@@ -44,7 +49,7 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 4. Add Age and Activity levels to Table - to calculate BMI and TDEE
 5. Food Diary Tracking (FoodDiary.js) show Food Diary Tracking > Linked with App.js
 6. Create food_logs Table storing food tracking data.
-
+7. Create food search page to link with USDA Food API.
 
 ### Interaction 
 - Pressable / TouchableOpacity

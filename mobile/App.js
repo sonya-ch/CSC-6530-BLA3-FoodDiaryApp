@@ -2,13 +2,14 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
 
-// --- Props ---
+// --- Props Pages ---
 import Home from "./Home"; //props Home
 import Favorites from "./Favorites";
 import FoodDetail from "./FoodDetail"; //Food Detail
 import AddFood from "./AddFood";
 import Profile from "./Profile"; // Profile Page
 import FoodDiary from "./FoodDiary"; // Food Diary Page
+import SearchFood from "./SearchFood";
 
 // --- Old Data --- 
 //import foodData from "../data/food";
@@ -47,6 +48,12 @@ export default function App() {
 
   // When select food > go to FoodDetail page
   const [selectedFood, setSelectedFood] = useState(null);
+
+  // --- Diary State ---
+  const [diaryMeal, setDiaryMeal] = useState("Breakfast");
+  const [diaryDate, setDiaryDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
 
 
   // ------- Functions ------
@@ -226,9 +233,22 @@ useEffect(() => {
       ) : screen === "profile" ? (
          <Profile onBack={() => setScreen("home")} />
 
+      // --- Diary and Search Food Screens ---
       ) : screen === "diary" ? (
-         <FoodDiary onBack={() => setScreen("home")} />
-
+        <FoodDiary
+          onBack={() => setScreen("home")}
+          onAddFood={(meal, date) => {
+            setDiaryMeal(meal);
+            setDiaryDate(date);
+            setScreen("searchFood");
+          }}
+        />
+      ) : screen === "searchFood" ? (
+        <SearchFood
+          mealType={diaryMeal}
+          logDate={diaryDate}
+          onBack={() => setScreen("diary")}
+        />
       
       ) : null}
 

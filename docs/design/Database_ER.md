@@ -1,6 +1,6 @@
 ```mermaid
 erDiagram
-    FOODS ||--o { FOOD_LOGS : "referenced by food_id"
+    FOODS ||--o{ FOOD_LOGS : "referenced by food_id"
 
     FOODS {
         INTEGER food_id PK
@@ -16,7 +16,7 @@ erDiagram
 
     FOOD_LOGS {
         INTEGER log_id PK
-        INTEGER food_fk FK "Foriegn Key"
+        INTEGER food_fk FK "Foreign Key"
         TEXT food_name
         TEXT meal_type
         TEXT log_date

@@ -34,7 +34,8 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 
 ### Design 
 - [UML](./docs/design/UML.md) 
-- [UseCaseDiagram](./docs/design/) 
+- [UseCaseDiagram](./docs/design/)
+- [Database_ER_Diagram](./docs/design/Database_ER.md) 
  
 ### Steps Working
 1. Install Express
@@ -42,7 +43,7 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 3. Create Profile.js and Hamburger Menu Navigation
 4. Add Age and Activity levels to Table - to calculate BMI and TDEE
 5. Food Diary Tracking (FoodDiary.js) show Food Diary Tracking > Linked with App.js
-
+6. Create food_logs Table storing food tracking data.
 
 
 ### Interaction 

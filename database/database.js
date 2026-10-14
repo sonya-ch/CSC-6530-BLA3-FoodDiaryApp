@@ -21,6 +21,7 @@ export async function initDatabase() {
 
   const db = await getDatabase();
 
+// CREATE TABLE foods
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS foods (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,6 +35,24 @@ export async function initDatabase() {
       isFavorite INTEGER DEFAULT 0 -- 1 for true, 0 for false
     );
   `);
+
+// CREATE TABLE food_logs
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS food_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      food_id INTEGER,
+      food_name TEXT NOT NULL,
+      meal_type TEXT NOT NULL,
+      log_date TEXT NOT NULL,
+      quantity_grams REAL NOT NULL DEFAULT 100,
+      calories REAL DEFAULT 0,
+      protein REAL DEFAULT 0,
+      carbs REAL DEFAULT 0,
+      fat REAL DEFAULT 0,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
 }
 
 // Seeding data into the foods table
@@ -178,3 +197,62 @@ export async function resetDatabase() {
   await seedFoods();
 }
 
+
+
+/* ---------- FOOD DIARY ---------- */
+
+// Add one food item to the diary
+export async function addFoodLog(log) {
+  const db = await getDatabase();
+
+  const result = await db.runAsync(
+    `INSERT INTO food_logs (
+      food_id,
+      food_name,
+      meal_type,
+      log_date,
+      quantity_grams,
+      calories,
+      protein,
+      carbs,
+      fat
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    log.food_id ?? null,
+    log.food_name,
+    log.meal_type,
+    log.log_date,
+    log.quantity_grams ?? 100,
+    log.calories ?? 0,
+    log.protein ?? 0,
+    log.carbs ?? 0,
+    log.fat ?? 0
+  );
+
+  return result.lastInsertRowId;
+}
+
+
+// Get all food logs for a selected date
+export async function getFoodLogsByDate(date) {
+  const db = await getDatabase();
+
+  return await db.getAllAsync(
+    `SELECT *
+     FROM food_logs
+     WHERE log_date = ?
+     ORDER BY id`,
+    date
+  );
+}
+
+
+// Delete one food log
+export async function deleteFoodLog(logId) {
+  const db = await getDatabase();
+
+  await db.runAsync(
+    "DELETE FROM food_logs WHERE id = ?",
+    logId
+  );
+}

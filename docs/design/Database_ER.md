@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
     FOODS ||--o { FOOD_LOGS : "referenced by food_id"
 

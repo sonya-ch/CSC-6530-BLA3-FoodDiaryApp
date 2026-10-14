@@ -42,7 +42,7 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - [UseCaseDiagram](./docs/design/)
 - [Database_ER_Diagram](./docs/design/Database_ER.md) 
  
-### Steps Working
+### BLA3 - Working Steps
 1. Install Express
 2. Install Neon - Create user-profiles table - Test POST and GET 
 3. Create Profile.js and Hamburger Menu Navigation
@@ -50,6 +50,7 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 5. Food Diary Tracking (FoodDiary.js) show Food Diary Tracking > Linked with App.js
 6. Create food_logs Table storing food tracking data.
 7. Create food search page to link with USDA Food API.
+8. Connect USDA FoodData Central by API_KEY in ./.env
 
 ### Interaction 
 - Pressable / TouchableOpacity
@@ -62,10 +63,11 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 ---
 
 ## Stack Technologies
-### Front-End
+### Design and Front-End
 - Figma
 - CSS
 - Canvas
+- Mermaid
 
 ### Back-End
 - JavaScript
@@ -75,16 +77,16 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - Expo Go 
 
 ### Database
-- PostgreSQL
-- SQLite
-- Express
-- Node.js
-- NEON
-- PowerShell
+- PostgreSQL - User Profile
+- SQLite - Favorite Food
+- Express - Connect PostgreSQL
+- Node.js - node server
+- NEON - 
+- PowerShell - Command line
 
 ### API
-- FDA Food API 
- 
+- USDA API FoodData Central
+
  ---
  
  ## How to Run

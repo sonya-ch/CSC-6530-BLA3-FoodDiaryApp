@@ -106,7 +106,7 @@ export default function SearchFood({ mealType, logDate, onBack })
     try {
       setSaving(true);
 
-      // USDA nutrient values are generally reported per 100 g
+      // *** USDA nutrient values are generally reported per 100 g
       const factor = grams / 100;
 
       const calories = getNutrient(selectedFood, "Energy");

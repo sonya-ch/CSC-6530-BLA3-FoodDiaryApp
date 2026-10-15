@@ -163,14 +163,10 @@ export default function FoodDiary({ onBack, onAddFood }) {
       {/* Header */}
       <View style={myStyle.profileHeader}>
         <TouchableOpacity onPress={onBack}>
-          <Text style={myStyle.profileBack}>‹ Back</Text>
+          <Text style={myStyle.profileBack}> ← Back</Text>
         </TouchableOpacity>
 
-        <Text style={myStyle.profileTitle}>Food Diary</Text>
-
-        <Text style={{ color: "#6B3E4B", marginTop: 5 }}>
-          Track your daily nutrition
-        </Text>
+        <Text style={myStyle.profileTitle}>🗓️ Food Diary</Text>
       </View>
 
       <View style={{ padding: 20 }}>
@@ -201,10 +197,11 @@ export default function FoodDiary({ onBack, onAddFood }) {
           style={{
             backgroundColor: "#FFF1F5",
             borderRadius: 14,
-            padding: 18,
+            padding: 14,
             marginBottom: 20,
           }}
         >
+          
           <Text
             style={{
               fontSize: 18,
@@ -220,22 +217,21 @@ export default function FoodDiary({ onBack, onAddFood }) {
               fontSize: 28,
               fontWeight: "bold",
               marginTop: 12,
+              paddingLeft: 14,
+              color: "#333333",
             }}
           >
             {totals.calories.toFixed(0)} kcal
           </Text>
 
-          <Text style={{ color: "#6B3E4B" }}>
-            Calories consumed
-          </Text>
-
-          <Text style={{ marginTop: 12 }}>
+          <Text style={{ marginVertical: 10 }}>
             Protein: {totals.protein.toFixed(1)} g
             {"  |  "}
             Carbs: {totals.carbs.toFixed(1)} g
             {"  |  "}
             Fat: {totals.fat.toFixed(1)} g
           </Text>
+
         </View>
 
         {/* ----  Loading State ------ */}
@@ -290,7 +286,7 @@ export default function FoodDiary({ onBack, onAddFood }) {
                     No food logged yet.
                   </Text>
                 ) : (
-                  
+
                   // Render each food item for the current meal
                   mealLogs.map((food) => (
                     <View
@@ -353,7 +349,7 @@ export default function FoodDiary({ onBack, onAddFood }) {
                           style={{ padding: 8 }}
                         >
                           <Text style={{ color: "#C0395B" }}>
-                            Delete
+                            ❌
                           </Text>
                         </TouchableOpacity>
                       </View>

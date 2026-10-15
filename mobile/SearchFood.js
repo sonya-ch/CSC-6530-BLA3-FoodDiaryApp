@@ -19,14 +19,54 @@ import myStyle from "../assets/styles/myStyle";
 // USDA API key for accessing the USDA Food Data Central API
 const USDA_API_KEY = process.env.EXPO_PUBLIC_USDA_API_KEY;
 
-// Function to extract nutrient values from USDA food data
+
+// Function to extract nutrient values from USDA food data (per 100 g)
 function getNutrient(food, nutrientName) {
   const nutrient = food.foodNutrients?.find(
     (item) => item.nutrientName === nutrientName
   );
 
-  return Number(nutrient?.value || 0);
+  return Number(nutrient?.value ?? 0);
 }
+
+
+// Function to extract calorie values (Energy) from USDA food data, to be Kcal.
+// USDA Energy unit is kj,but we need kcal (kilocalories)
+// if kj, kcal will be 0.
+function getCaloriesPer100g(food) {
+  const energy = food.foodNutrients?.find(
+    (item) =>
+      item.nutrientName === "Energy" &&
+      item.unitName?.toLowerCase() === "kcal"
+  );
+
+  return Number(energy?.value ?? 0);
+}
+
+
+// Function to calculate nutrition for a given quantity of food
+function getNutritionForQuantity(food, quantity) {
+  const grams = Number(quantity);
+
+  if (!food || !Number.isFinite(grams) || grams <= 0) {
+    return {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+    };
+  }
+  const factor = grams / 100;
+  return {
+    calories: getCaloriesPer100g(food) * factor,
+    protein: getNutrient(food, "Protein") * factor,
+    carbs:
+      getNutrient(food, "Carbohydrate, by difference") * factor,
+    fat: getNutrient(food, "Total lipid (fat)") * factor,
+  };
+}
+
+
 
 // Component for searching and adding food to the diary
 export default function SearchFood({ mealType, logDate, onBack }) 
@@ -37,6 +77,12 @@ export default function SearchFood({ mealType, logDate, onBack })
   const [quantity, setQuantity] = useState("100");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  // Calculate nutrition for the selected food and quantity
+  const nutrition = getNutritionForQuantity(
+    selectedFood,
+    quantity
+  );
 
   // Function to search for foods using the USDA API
   const searchFoods = async () => {
@@ -90,79 +136,70 @@ export default function SearchFood({ mealType, logDate, onBack })
     }
   };
 
-  const saveFood = async () => {
-    if (!selectedFood) return;
 
-    const grams = Number(quantity);
 
-    if (!Number.isFinite(grams) || grams <= 0) {
-      Alert.alert(
-        "Invalid Quantity",
-        "Please enter a quantity greater than 0 grams."
-      );
-      return;
-    }
+  // --- Function to save the selected food to the diary ---
+    const saveFood = async () => {
+        if (!selectedFood) return;
 
-    try {
-      setSaving(true);
+        const grams = Number(quantity);
 
-      // *** USDA nutrient values are generally reported per 100 g
-      const factor = grams / 100;
+        if (!Number.isFinite(grams) || grams <= 0) {
+            Alert.alert(
+            "Invalid Quantity",
+            "Please enter a quantity greater than 0 grams."
+            );
+            return;
+        }
 
-      const calories = getNutrient(selectedFood, "Energy");
-      const protein = getNutrient(selectedFood, "Protein");
-      const carbs = getNutrient(
-        selectedFood,
-        "Carbohydrate, by difference"
-      );
-      const fat = getNutrient(
-        selectedFood,
-        "Total lipid (fat)"
-      );
+        try {
+            setSaving(true);
 
-      // Prefer the kcal energy value when available
-      const energyNutrient = selectedFood.foodNutrients?.find(
-        (item) =>
-          item.nutrientName === "Energy" &&
-          ["kcal", "KCAL"].includes(item.unitName)
-      );
+            // USDA nutrient values are generally reported per 100 g
+            const factor = grams / 100;
 
-      // Calculate the final calorie value based on the energy nutrient and the quantity factor  
-      const finalCalories = energyNutrient
-        ? Number(energyNutrient.value || 0) * factor
-        : calories * factor;
+            // Get nutrient values per 100 g
+            const calories = getCaloriesPer100g(selectedFood);
+            const protein = getNutrient(selectedFood, "Protein");
+            const carbs = getNutrient(selectedFood, "Carbohydrate, by difference", );
+            const fat = getNutrient( selectedFood, "Total lipid (fat)");
 
-      // Add the food log to the database with the calculated nutrient values
-      await addFoodLog({
-        food_id: null,
-        food_name: selectedFood.description,
-        meal_type: mealType,
-        log_date: logDate,
-        quantity_grams: grams,
-        calories: finalCalories,
-        protein: protein * factor,
-        carbs: carbs * factor,
-        fat: fat * factor,
-      });
+            // Save nutrition values calculated for the selected quantity
+            await addFoodLog({
+            food_id: null,
+            food_name: selectedFood.description,
+            meal_type: mealType,
+            log_date: logDate,
+            quantity_grams: grams,
+            calories: calories * factor,
+            protein: protein * factor,
+            carbs: carbs * factor,
+            fat: fat * factor,
+            });
 
-      Alert.alert("Success", "Food added to your diary!", [
-        {
-          text: "OK",
-          onPress: onBack,
-        },
-      ]);
-    } catch (error) {
-      console.error("Save food error:", error);
 
-      Alert.alert(
-        "Save Failed",
-        "Unable to save food to your diary."
-      );
-    } finally {
-      setSaving(false);
-    }
-  };
+            Alert.alert("Success", "Food added to your diary!", [
+            {
+                text: "OK",
+                onPress: onBack,
+            },
+            ]);
+        } catch (error) {
+            console.error("Save food error:", error);
 
+            Alert.alert(
+            "Save Failed",
+            "Unable to save food to your diary."
+            );
+        } finally {
+            setSaving(false);
+        }
+    };
+
+
+
+
+  // --- Render the Search Food Screen ---
   return (
     <ScrollView style={myStyle.container}>
       <View style={myStyle.profileHeader}>
@@ -213,10 +250,15 @@ export default function SearchFood({ mealType, logDate, onBack })
           <ActivityIndicator style={{ marginTop: 20 }} />
         )}
 
-        {results.map((food) => (
+        {/* Display search results only if no food is selected 
+            If a food is selected, the search results will be hidden. */}
+        {!selectedFood && results.map((food) => (
           <TouchableOpacity
             key={food.fdcId}
-            onPress={() => setSelectedFood(food)}
+            onPress={() => {
+                console.log("Selected USDA food:", food.description);
+                setSelectedFood(food);
+            }}
             style={{
               backgroundColor:
                 selectedFood?.fdcId === food.fdcId
@@ -283,6 +325,70 @@ export default function SearchFood({ mealType, logDate, onBack })
               }}
             />
 
+            {/* ----  Nutrition Estimate Section ------ */}
+            <View
+            style={{
+                marginTop: 16,
+                padding: 14,
+                backgroundColor: "#FFFFFF",
+                borderRadius: 10,
+            }}
+            >
+            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#6B3E4B" }}>
+                Nutrition Estimate
+            </Text>
+                <View
+                    style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    marginTop: 12,
+                    }}>
+                        {[
+                        {
+                            label: "Energy",
+                            value: `${nutrition.calories.toFixed(1)} kcal`,
+                        },
+                        {
+                            label: "Protein (P)",
+                            value: `${nutrition.protein.toFixed(1)} g`,
+                        },
+                        {
+                            label: "Carbs (C)",
+                            value: `${nutrition.carbs.toFixed(1)} g`,
+                        },
+                        {
+                            label: "Fat (F)",
+                            value: `${nutrition.fat.toFixed(1)} g`,
+                        },
+                        ].map((item) => (
+                        <View
+                            key={item.label}
+                            style={{
+                            width: "50%",
+                            paddingVertical: 10,
+                            paddingRight: 8,
+                            }}
+                        >
+                        <Text style={{ color: "#777777", fontSize: 12 }}>
+                        {item.label}
+                        </Text>
+                        <Text
+                        style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            color: "#6B3E4B",
+                            marginTop: 4,
+                        }}
+                        >
+                        {item.value}
+                        </Text>
+                    </View>
+                    ))}
+                </View>
+            </View>
+
+
+        {/* ----  Save and Back Buttons ------ */}
             <TouchableOpacity
               onPress={saveFood}
               disabled={saving}
@@ -297,6 +403,22 @@ export default function SearchFood({ mealType, logDate, onBack })
               <Text style={{ color: "#FFFFFF", fontWeight: "bold" }}>
                 {saving ? "Saving..." : "Save to Food Diary"}
               </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={() => {
+                    setSelectedFood(null);
+                    setQuantity("100");
+                }}
+                style={{
+                    padding: 12,
+                    alignItems: "center",
+                    marginTop: 8,
+                }}
+                >
+                <Text style={{ color: "#6B3E4B" }}>
+                    ← Back to search results
+                </Text>
             </TouchableOpacity>
           </View>
         )}

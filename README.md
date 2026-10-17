@@ -37,11 +37,25 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 -   **FoodDiary - Show food diaryLogs
 -   **SearchFood.js - Search food list from USDA FoodData Central API, and manage it to 100g unit.
 
+---
+
 ### Design 
 - [UML](./docs/design/UML.md) 
 - [UseCaseDiagram](./docs/design/)
-- [Database_ER_Diagram](./docs/design/Database_ER.md) 
- 
+- [Database_ER_Diagram](./docs/design/Database_ER.md)  
+- [DatabaseFlow](./docs/design/DatabaseFlow.md)  
+
+---
+
+ ## How to Run
+- npm install (Install Packages)
+- npm start (Start Expo)
+- npx expo start -c (Start Expo and clear cache)
+- npx expo install expo-sqlite (Install Expo SQLite)
+- node server (./backend - run PostgreSQL)
+  
+---
+
 ### BLA3 - Working Steps
 1. Install Express
 2. Install Neon - Create user-profiles table - Test POST and GET 
@@ -52,63 +66,88 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 7. Create food search page to link with USDA Food API.
 8. Connect USDA FoodData Central by API_KEY in ./.env
 
-### Interaction 
-- Pressable / TouchableOpacity
-- Navigate to screens
-- Search/filter
-- Favorite/unfavorite
-- Category selection
-- FlatList 
-
 ---
 
 ## Stack Technologies
-### Design and Front-End
-- Figma
-- CSS
-- Canvas
-- Mermaid
 
-### Back-End
-- JavaScript
-- React Native
-- TypeScript
-- Android Emulator
-- Expo Go 
+### Design and UI/UX
+- **Figma** – Used for UI/UX design and interface planning.
+- **CSS** – Used for styling where applicable.
+- **Mermaid** – Used to create UML, database entity-relationship diagrams (ERDs) and visualize table relationships.
+
+### Front-End and Mobile Development
+- **React Native** – Framework for building the ByteBurn mobile application.
+- **JavaScript** – Used to implement application logic and functionality.
+- **TypeScript** – Used where applicable for typed JavaScript development.
+- **Expo** – Development platform for running and testing the React Native application.
+- **Expo Go** – Used to preview and test the application on supported devices.
+- **Android Emulator** – Used to run and test the Android application in a virtual device.
 
 ### Database
-- PostgreSQL - User Profile
-- SQLite - Favorite Food
-- Express - Connect PostgreSQL
-- Node.js - node server
-- NEON - 
-- PowerShell - Command line
+- **SQLite (`expo-sqlite`)** – Stores food diary logs and favorite foods locally in the mobile application.
+- **PostgreSQL** – Relational database for user profile information.
+- **Neon** – Cloud-hosted PostgreSQL database service used to store user profile data.
 
-### API
-- USDA API FoodData Central
+### Back-End Development
+- **Node.js** – JavaScript runtime used to run the backend server.
+- **Express.js** – Backend framework used to build REST API endpoints and connect the mobile application to PostgreSQL.
 
- ---
- 
- ## How to Run
-- npm install (Install Packages)
-- npm start (Start Expo)
-- npx expo start -c (Start Expo and clear cache)
-- npx expo install expo-sqlite (Install Expo SQLite)
-  
----
- 
-## Database Flow
- - [DatabaseFlow](./docs/design/DatabaseFlow.md)  
+### External APIs
+- **USDA FoodData Central API** – Provides food information and nutrition data for food search and tracking.
 
-
+### Development and Testing Tools
+- **PowerShell** – Used to run development commands, start the backend server, and test API endpoints.
+- **Git** – Used for version control and tracking code changes.
+- **GitHub** – Used to host the source code repository and manage project updates.
 
 ---
+ 
 
-## What I Have Learned? (Challenges) 
+## What I Have Learned? (Challenges)
 
-BLA2 helped me understand how a mobile application works beyond the user interface. I learned how the UI, application logic, state management, and database work together to create a functional application.
+During BLA 3, I learned how to extend a React Native application beyond 
+basic UI development by integrating external APIs, local database storage, 
+and a backend server.
 
-I also learned that organizing database operations separately from the UI can make the application easier to maintain and extend in future development.
+### Key Learnings
+
+- **External API Integration:** Learned how to use the USDA FoodData Central 
+  API to search for food information and retrieve nutrition data.
+
+- **SQLite Database Management:** Learned how to create and manage food diary 
+  records, retrieve food logs by date, and delete individual entries.
+
+- **Backend Development:** Gained experience using Node.js and Express.js 
+  to build API endpoints and connect the mobile application to a PostgreSQL 
+  database hosted on Neon.
+
+- **User Profile Management:** Learned how to retrieve and update profile 
+  information through API requests.
+
+- **Environment Configuration:** Learned how environment variables are used 
+  to configure API keys and how to troubleshoot issues when environment 
+  variables are not loaded from the expected `.env` file.
+
+- **Dependency Management:** Learned how to identify incompatible package 
+  versions and restore compatible Expo, React, and React Native dependencies.
+
+- **Debugging and Testing:** Improved my troubleshooting skills by testing 
+  API endpoints, checking database operations, and resolving Android Emulator 
+  connectivity issues using ADB.
+
+### Challenges
+
+- Integrating external API data into the React Native application.
+- Managing asynchronous API requests and database operations.
+- Separating local food diary storage from backend-managed user profile data.
+- Configuring environment variables for API access.
+- Troubleshooting dependency conflicts and Android Emulator connectivity.
+- Planning how to combine food logs and user profile data for future 
+  AI-powered nutrition coaching.
+
+These challenges helped me better understand how different parts of a 
+mobile application work together, from the user interface and database 
+to external APIs and backend services.
 
 ---
 
@@ -132,6 +171,7 @@ I also learned that organizing database operations separately from the UI can ma
 
 # Future Plans
   
+
 ---
 
 ## Tutorials and Learning Resources
@@ -159,4 +199,3 @@ I will combine the relevant concepts from these resources and implement them in 
 
 ---
  
-"# -CSC-6530-BLA3-FoodDiaryApp" 

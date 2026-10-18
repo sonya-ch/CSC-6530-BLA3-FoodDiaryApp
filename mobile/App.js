@@ -10,6 +10,8 @@ import AddFood from "./AddFood";
 import Profile from "./Profile"; // Profile Page
 import FoodDiary from "./FoodDiary"; // Food Diary Page
 import SearchFood from "./SearchFood";
+import AICoach from "./ai/AICoach"; // AI Coach Page
+
 
 // --- Old Data --- 
 //import foodData from "../data/food";
@@ -250,9 +252,16 @@ useEffect(() => {
           onBack={() => setScreen("diary")}
         />
       
-      ) : null}
+      // ------- AI Coach Screen -------
+      ) : screen === "aiCoach" ? (
+        <AICoach
+          onBack={() => setScreen("home")}
+        />
 
-      {/* --- Navigation Bar --- */}
+      ) : null}
+      
+
+      {/* --- Buttom Navigation Bar --- */}
       <View style={myStyle.navbar}>
         <TouchableOpacity onPress={() => setScreen("home")}>
           <Text>🏠 Home</Text>
@@ -263,7 +272,7 @@ useEffect(() => {
         </TouchableOpacity>
       </View>
       
-      {/* ----- Menu Overlay ------ */}  
+      {/* ----- Hamburger Menu Overlay ------ */}
       {menuVisible && (
         <View style={myStyle.menuOverlay}>
           <View style={myStyle.menuPanel}>
@@ -311,6 +320,18 @@ useEffect(() => {
               <Text style={myStyle.menuItemText}>📅 Food Diary</Text>
             </TouchableOpacity>
 
+
+            <TouchableOpacity
+              style={myStyle.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setScreen("aiCoach");
+              }}
+            >
+              <Text style={myStyle.menuItemText}>
+                🤖 AI Coach
+              </Text>
+            </TouchableOpacity>
 
 
             <TouchableOpacity

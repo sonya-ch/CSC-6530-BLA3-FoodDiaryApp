@@ -1,3 +1,6 @@
+// ---- AI Routes ----
+require("dotenv").config();
+const aiRoutes = require("./ai/aiRoutes");
 
 const express = require("express");
 const pool = require("./db");
@@ -6,6 +9,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use("/api/ai", aiRoutes); // AI Coach routes
 
 // Health check
 app.get("/", (req, res) => {

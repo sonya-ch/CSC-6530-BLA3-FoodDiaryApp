@@ -4,6 +4,7 @@
 # Instructor: Dr Victor Govindaswamy
 # Start Date: 10/9/2026
 
+
 ## BLA 3 – API, PostgreSQL, and AI
 
 For BLA 3, I plan to further develop the Food Tracking App into a ByteBurn application by integrating an external API and AI functionality.
@@ -65,6 +66,21 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 6. Create food_logs Table storing food tracking data.
 7. Create food search page to link with USDA Food API.
 8. Connect USDA FoodData Central by API_KEY in ./.env
+9. AI Feature.
+---
+
+## AI Feature
+1. AI Coach Page - Chatbot style.
+2. AI module
+- Chat UI: Display Messages
+- AI Service: Send qustiom to Backend, for calling AI model.
+- Nutrition Context: Took Profile data and Food Diary, for AI to answer based on real data. 
+3. AI API Back-End - Create Endpoint to get questions and answers.
+- aiRoutes.js - AI API URL.
+- aiController.js - Get the message from app, then answer back.
+- aiService.js - Connect with AI, and wait for answer.
+4. Connect OpenAI SDK - 'npm install openai' - using express.
+
 
 ---
 
@@ -99,6 +115,9 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 - **PowerShell** – Used to run development commands, start the backend server, and test API endpoints.
 - **Git** – Used for version control and tracking code changes.
 - **GitHub** – Used to host the source code repository and manage project updates.
+
+### AI Feature
+- **OpenAI API** - AI Model using Responses API from OpenAI SDK.
 
 ---
  

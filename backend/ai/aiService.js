@@ -32,10 +32,10 @@ Your responsibilities:
 // @returns {Promise<string>} - The AI-generated response from the OpenAI API.  
 async function getAIReply(message) {
   const response = await client.responses.create({
-    model: process.env.OPENAI_MODEL || "gpt-5-mini",
-    instructions: SYSTEM_INSTRUCTIONS,
+    model: process.env.OPENAI_MODEL || "gpt-6-luna", // AI Model
+    instructions: SYSTEM_INSTRUCTIONS,  // System instructions for the AI Coach
     input: message,
-    max_output_tokens: 400,
+    max_output_tokens: 400, // Token limit for the AI response
   });
 
   return response.output_text;

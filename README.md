@@ -58,29 +58,28 @@ This will allow me to gradually develop the project from a UI-focused applicatio
 ---
 
 ### BLA3 - Working Steps
-1. Install Express
+#### Profile Page
+1. Install Express - Node.js
 2. Install Neon - Create user-profiles table - Test POST and GET 
 3. Create Profile.js and Hamburger Menu Navigation
 4. Add Age and Activity levels to Table - to calculate BMI and TDEE
+#### Diary Logs
 5. Food Diary Tracking (FoodDiary.js) show Food Diary Tracking > Linked with App.js
 6. Create food_logs Table storing food tracking data.
 7. Create food search page to link with USDA Food API.
 8. Connect USDA FoodData Central by API_KEY in ./.env
-9. AI Feature.
----
-
-## AI Feature
-1. AI Coach Page - Chatbot style.
-2. AI module
-- Chat UI: Display Messages
-- AI Service: Send qustiom to Backend, for calling AI model.
-- Nutrition Context: Took Profile data and Food Diary, for AI to answer based on real data. 
-3. AI API Back-End - Create Endpoint to get questions and answers.
+#### AI Chatbot
+9. AI Coach Page - Chatbot style.
+10. AI modules
+- Front-End, Chat UI: Display Messages
+- Back-End, AI Service: Send qustiom to Backend, for calling AI model.
+- API, Nutrition Context: Took Profile data and Food Diary, for AI to answer based on real data. 
+11. AI API Back-End - Create Endpoint to get questions and answers.
 - aiRoutes.js - AI API URL.
 - aiController.js - Get the message from app, then answer back.
 - aiService.js - Connect with AI, and wait for answer.
-4. Connect OpenAI SDK - 'npm install openai' - using express.
-
+12. Connect OpenAI SDK - 'npm install openai' - using express.
+13. AI Key - Pay for the OpenAI token usage. 
 
 ---
 

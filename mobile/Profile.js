@@ -12,9 +12,9 @@ import {
 
 import myStyle from "../assets/styles/myStyle";
 
-// Change this to your computer's LAN IP when using Expo Go on a phone.
-const API_URL = "http://192.168.0.98:3000/api/profiles";
-
+// ------- IP - ipconfig ---
+// const API_URL = "http://192.168.0.98:3000/api/profiles";
+const API_URL = "http://10.11.7.112:3000/api/profiles";
 
 export default function Profile({ onBack }) {
 

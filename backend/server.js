@@ -6,8 +6,8 @@ const aiRoutes = require("./ai/aiRoutes");
 const express = require("express");
 const pool = require("./db");
 const app = express();
-const PORT = 3000;
-
+const PORT = process.env.PORT || 8081;
+ 
 // ------- Middleware -------
 app.use(express.json());
 app.use("/api/ai", aiRoutes); // AI Coach routes

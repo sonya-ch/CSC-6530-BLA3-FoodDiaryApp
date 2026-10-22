@@ -15,7 +15,7 @@ import myStyle from "../assets/styles/myStyle";
 
 // ------- IP - ipconfig ---
 import API_URL from "./src/config/api";
-const response = await fetch(`${API_URL}/api/profiles`);
+ 
 
 
 export default function Profile({ onBack }) {
@@ -91,7 +91,7 @@ const ageNumber = Number(age);
   //----- Load Profile Function -----
   const loadProfile = async () => {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(`${API_URL}/api/profiles`);
 
       if (!response.ok) {
         throw new Error("Failed to load profiles");
@@ -176,9 +176,9 @@ const ageNumber = Number(age);
       setSaving(true);
 
       const response = await fetch(
-        profileId
-          ? `${API_URL}/${profileId}`
-          : API_URL,
+      profileId
+        ? `${API_URL}/api/profiles/${profileId}`
+        : `${API_URL}/api/profiles`,
         {
           method: profileId ? "PUT" : "POST",
           headers: {

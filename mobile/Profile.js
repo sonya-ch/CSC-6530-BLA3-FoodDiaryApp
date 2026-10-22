@@ -12,9 +12,11 @@ import {
 
 import myStyle from "../assets/styles/myStyle";
 
+
 // ------- IP - ipconfig ---
-// const API_URL = "http://192.168.0.98:3000/api/profiles";
-const API_URL = "http://10.11.7.112:3000/api/profiles";
+import API_URL from "./src/config/api";
+const response = await fetch(`${API_URL}/api/profiles`);
+
 
 export default function Profile({ onBack }) {
 

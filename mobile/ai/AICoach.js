@@ -12,12 +12,23 @@ import {
 
 import myStyle from "../../assets/styles/myStyle";
 
+// ------- IP - ipconfig ---
+ 
+import API_URL from "../src/config/api";
+
+
+
 export default function AICoach({ onBack }) {
 
-  const [message, setMessage] = useState(""); // State for the current message input by the user
-  const [isLoading, setIsLoading] = useState(false); // State for indicating if the AI Coach is processing a message
-  const [error, setError] = useState(null); // State for storing any error that occurs while interacting with the AI Coach
 
+
+
+  
+ const [message, setMessage] = useState(""); // State for the current message input by the user
+ const [isLoading, setIsLoading] = useState(false); // State for indicating if the AI Coach is processing a message
+
+
+ 
   const [messages, setMessages] = useState([ // State for the list of chat messages
     {
       id: "1",
@@ -33,8 +44,6 @@ export default function AICoach({ onBack }) {
     "Help me understand my food choices",
   ];
 
-
-    const API_URL = "http://192.168.0.98:3000"; //Mobile IP, Base URL for the backend API
 
     // ---- Function, handles sending a message to the AI Coach and updating the chat messages.
     const sendMessage = async (text) => {
@@ -52,7 +61,7 @@ export default function AICoach({ onBack }) {
         setMessage("");
         setIsLoading(true);
 
-        // Send the user's message to the backend API for processing by the AI Coach
+        // Send the user's message to the backend API
         try {
                 const response = await fetch(`${API_URL}/api/ai/chat`, {
                 method: "POST",

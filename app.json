@@ -5,6 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo_FoxBit.png",
+    "splash": {
+      "image": "./assets/images/Logo_FoxBit.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true

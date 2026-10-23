@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ByteBurn -v3",
-    "slug": "ByteBurn -v3",
+    "slug": "byteburn-v3",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo_FoxBit.png",
@@ -12,14 +12,16 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "icon": "./assets/images/Logo_FoxBit.png"
+        "foregroundImage": "./assets/images/Logo_FoxBit.png"
       }
     },
     "web": {
       "icon": "./assets/images/Logo_FoxBit.png"
     },
     "plugins": [
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-status-bar",
+      "expo-font"
     ]
   }
 }

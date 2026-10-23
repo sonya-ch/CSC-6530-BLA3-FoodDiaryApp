@@ -15,7 +15,7 @@ import myStyle from "../assets/styles/myStyle";
 
 // ------- IP - ipconfig ---
 import API_URL from "./src/config/api";
- 
+
 
 
 export default function Profile({ onBack }) {
@@ -91,8 +91,8 @@ const ageNumber = Number(age);
   //----- Load Profile Function -----
   const loadProfile = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/profiles`);
-
+      const response = await fetch(`${API_URL}/api/profiles`); //http://192.168.12.130:3000/api/profiles
+      console.log("Fetching profiles from:", `${API_URL}/api/profiles`);
       if (!response.ok) {
         throw new Error("Failed to load profiles");
       }

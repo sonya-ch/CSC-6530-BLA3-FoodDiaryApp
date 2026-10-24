@@ -13,16 +13,30 @@ import {
 import myStyle from "../../assets/styles/myStyle";
 
 // ------- IP - ipconfig ---
- 
 import API_URL from "../src/config/api";
 
+// ------ Database Functions ------
+import {
+  initDatabase,
+  getFoodLogsByDate,
+  getFoods,
+} from "../../database/database";
+
+
+// ------ Functions ------------
+
+// ------ Get Local Date Function ------
+function getLocalDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
 
 
 export default function AICoach({ onBack }) {
-
-
-
-
   
  const [message, setMessage] = useState(""); // State for the current message input by the user
  const [isLoading, setIsLoading] = useState(false); // State for indicating if the AI Coach is processing a message
@@ -33,7 +47,7 @@ export default function AICoach({ onBack }) {
     {
       id: "1",
       role: "ai",
-      text: "Hi! 👋 I'm your ByteBurn Nutrition AI Coach.\n\n What would you like to know?",
+      text: "Hi! 👋 \nI'm your ByteBurn Nutrition AI Coach.\n\n What would you like to know?",
     },
   ]);
 
@@ -45,66 +59,109 @@ export default function AICoach({ onBack }) {
   ];
 
 
-    // ---- Function, handles sending a message to the AI Coach and updating the chat messages.
-    const sendMessage = async (text) => {
-        const trimmedText = text.trim();
 
-        if (!trimmedText || isLoading) return;
+  // ---- Function, handles sending a message to the AI Coach and updating the chat messages.
+const sendMessage = async (text) => {
+  const trimmedText = text.trim();
 
-        const userMessage = {
-            id: Date.now().toString(),
-            role: "user",
-            text: trimmedText,
-        };
+  if (!trimmedText || isLoading) return;
 
-        setMessages((previous) => [...previous, userMessage]);
-        setMessage("");
-        setIsLoading(true);
+  const userMessage = {
+    id: Date.now().toString(),
+    role: "user",
+    text: trimmedText,
+  };
 
-        // Send the user's message to the backend API
-        try {
-                const response = await fetch(`${API_URL}/api/ai/chat`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    message: trimmedText,
-                }),
-            });
+  setMessages((previous) => [...previous, userMessage]);
+  setMessage("");
+  setIsLoading(true);
 
-            // Parse the response from the backend API
-            const data = await response.json();
+  try {
+    // 1. Load the latest user profile from the backend
+    const profileResponse = await fetch(
+      `${API_URL}/api/profiles`
+    );
 
-            if (!response.ok) {
-            throw new Error(data.error || "AI request failed");
-            }
+    if (!profileResponse.ok) {
+      throw new Error("Unable to load user profile");
+    }
 
-            // Update the chat messages with the AI Coach's reply
-            setMessages((previous) => [
-                ...previous,
-                {
-                    id: `${Date.now()}-reply`,
-                    role: "ai",
-                    text: data.reply,
-                },
-            ]);
+    // ------ User Profile Extraction ------
+    const profileData = await profileResponse.json();
+    const profile = Array.isArray(profileData)
+      ? profileData[0] ?? null
+      : profileData.profiles?.[0] ?? null;
+    console.log("AI Coach profile:", profile);
 
-        } catch (error) {
-            console.error("AI Coach request error:", error);
-            setMessages((previous) => [
-                ...previous,
-                {
-                    id: `${Date.now()}-error`,
-                    role: "ai",
-                    text: "Sorry, I couldn't connect to AI Coach. Please check your connection and try again.",
-                },
-            ]);
 
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // ------ Load today's food diary from local SQLite ------
+    await initDatabase(); // Initialize the local SQLite database
+    const today = getLocalDate();
+    const diaryLogs = await getFoodLogsByDate(today);
+
+    // ------ Load favorite foods from local SQLite ------
+    const allFoods = await getFoods();
+    const favoriteFoods = allFoods
+      .filter((food) => Number(food.isFavorite) === 1)
+      .map((food) => ({
+        name: food.name,
+        category: food.category,
+        calories: food.calories,
+        protein: food.protein,
+        carbs: food.carbs,
+        fat: food.fat,
+      }));
+
+    console.log("AI Coach favorite foods:", favoriteFoods);
+
+
+
+    // ------ Send the message and personal context to the AI backend ------
+    const response = await fetch(`${API_URL}/api/ai/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: trimmedText,
+        profile,
+        diaryLogs,
+        diaryDate: today,
+        favoriteFoods,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    setMessages((previous) => [
+      ...previous,
+      {
+        id: `${Date.now()}-reply`,
+        role: "ai",
+        text: data.reply,
+      },
+    ]);
+  } catch (error) {
+    console.error("AI Coach request error:", error);
+
+    setMessages((previous) => [
+      ...previous,
+      {
+        id: `${Date.now()}-error`,
+        role: "ai",
+        text:
+          "Sorry, I couldn't load your profile or food diary. Please check your connection and try again.",
+      },
+    ]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
 
   return (

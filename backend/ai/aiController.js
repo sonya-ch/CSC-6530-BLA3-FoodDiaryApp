@@ -36,20 +36,21 @@ async function chat(req, res) {
     );
 
     res.json({ reply });
-    } catch (error) {
-      console.error("AI Coach error details:", {
-        message: error.message,
-        status: error.status,
-        code: error.code,
-        type: error.type,
-    });
+       } catch (error) {
+        console.error("AI Coach error details:", {
+          message: error.message,
+          status: error.status,
+          code: error.code,
+          type: error.type,
+          name: error.name,
+        });
 
-    res.status(500).json({
-      error: "Unable to get an AI response. Please try again.",
-    });
-  }
-}
-
+        res.status(500).json({
+          error: "Unable to get an AI response. Please try again.",
+        });
+      }
+    }
+ 
 module.exports = { chat };
 
 // AI Response = { reply: "AI-generated response from the OpenAI API" }

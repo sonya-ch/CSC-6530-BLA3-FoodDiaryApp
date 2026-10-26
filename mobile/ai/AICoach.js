@@ -41,8 +41,6 @@ export default function AICoach({ onBack }) {
  const [message, setMessage] = useState(""); // State for the current message input by the user
  const [isLoading, setIsLoading] = useState(false); // State for indicating if the AI Coach is processing a message
 
-
- 
   const [messages, setMessages] = useState([ // State for the list of chat messages
     {
       id: "1",
@@ -86,6 +84,7 @@ const sendMessage = async (text) => {
       throw new Error("Unable to load user profile");
     }
 
+
     // ------ User Profile Extraction ------
     const profileData = await profileResponse.json();
     const profile = Array.isArray(profileData)
@@ -98,6 +97,9 @@ const sendMessage = async (text) => {
     await initDatabase(); // Initialize the local SQLite database
     const today = getLocalDate();
     const diaryLogs = await getFoodLogsByDate(today);
+
+    console.log("STEP 1 - Today's date:", today);
+    console.log("STEP 2 - Diary logs:", diaryLogs);
 
     // ------ Load favorite foods from local SQLite ------
     const allFoods = await getFoods();
@@ -117,6 +119,7 @@ const sendMessage = async (text) => {
 
 
     // ------ Send the message and personal context to the AI backend ------
+    console.log("STEP 3 - Sending request to:", `${API_URL}/api/ai/chat`);
     const response = await fetch(`${API_URL}/api/ai/chat`, {
       method: "POST",
       headers: {
@@ -132,6 +135,8 @@ const sendMessage = async (text) => {
     });
 
     const data = await response.json();
+    console.log("STEP 4 - AI API status:", response.status);
+    console.log("STEP 5 - AI API response:", data);
 
     if (!response.ok) {
       throw new Error(data.error || "AI request failed");
@@ -145,9 +150,11 @@ const sendMessage = async (text) => {
         text: data.reply,
       },
     ]);
-  } catch (error) {
-    console.error("AI Coach request error:", error);
+} catch (error) {
+  console.error("AI Coach request error:", error);
+  console.error("AI Coach error message:", error?.message);
 
+  
     setMessages((previous) => [
       ...previous,
       {
@@ -205,7 +212,14 @@ const sendMessage = async (text) => {
               borderColor: "#F0DCE5",
             }}
           >
-            <Text style={{ fontSize: 14, lineHeight: 21 }}>
+            <Text
+              style={{
+                fontSize: 15,
+                lineHeight: 23,
+                color: "#3D3037",
+                flexShrink: 1,
+              }}
+            >
               {item.text}
             </Text>
           </View>
